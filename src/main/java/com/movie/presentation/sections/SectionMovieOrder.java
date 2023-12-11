@@ -27,7 +27,7 @@ public class SectionMovieOrder extends javax.swing.JPanel {
      * @param movie
      */
     public SectionMovieOrder(
-            Movie movie
+        Movie movie
     ) {
         this.movie = movie;
 
@@ -41,14 +41,14 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     private void initializeCenter(Movie movie) {
         this.scrollPaneCenter.getVerticalScrollBar().setPreferredSize(new Dimension(16, 0));
 
-        this.centerTitle.setText(movie.getTitle());
+        this.centerTitle.setText("<html>" + movie.getTitle() + "</html>");
         this.centerSynopsis.setText("<html>" + movie.getSynopsis() + "</html>");
 
         this.containerCenter.setPreferredSize(
-                new Dimension(
-                        1280 - 2 * 320 - 16,
-                        1000
-                )
+            new Dimension(
+                1280 - 2 * 320 - 16,
+                1000
+            )
         );
     }
 
@@ -57,13 +57,13 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         final double posterWidth = containerWidth - 64;
         final double posterHeight = posterWidth / 600 * 900;
 
-        ImageIcon imageIconPoster = new ImageIcon("assets/" + movie.getPoster());
+        ImageIcon imageIconPoster = new ImageIcon("assets/images/" + movie.getPoster() + ".jpg");
         imageIconPoster = new ImageIcon(
-                imageIconPoster.getImage().getScaledInstance(
-                        (int) posterWidth,
-                        (int) posterHeight,
-                        Image.SCALE_SMOOTH
-                )
+            imageIconPoster.getImage().getScaledInstance(
+                (int) posterWidth,
+                (int) posterHeight,
+                Image.SCALE_SMOOTH
+            )
         );
         this.poster.setIcon(imageIconPoster);
 
@@ -178,7 +178,6 @@ public class SectionMovieOrder extends javax.swing.JPanel {
 
         add(jPanel3, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel centerSynopsis;
