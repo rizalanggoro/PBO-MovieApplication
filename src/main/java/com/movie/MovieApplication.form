@@ -93,6 +93,7 @@
             <Component class="javax.swing.JButton" name="buttonMovies">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Daftar Film"/>
+                <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonMoviesActionPerformed"/>
@@ -110,6 +111,7 @@
             <Component class="javax.swing.JButton" name="buttonMyTickets">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tiket Saya"/>
+                <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonMyTicketsActionPerformed"/>

@@ -11,35 +11,64 @@ package com.movie.domain.models;
 public class Movie {
 
     private final String title;
+    private final String category;
+    private final String duration;
     private final String synopsis;
-    private final String posterPath;
-    private final int price;
+    private final String synopsisId;
+    private final String character;
+    private final String director;
+    private final String poster;
 
     public Movie(
             String title,
+            String category,
+            String duration,
             String synopsis,
-            String posterPath,
-            int price
+            String synopsisId,
+            String character,
+            String director,
+            String poster
     ) {
         this.title = title;
+        this.category = category;
+        this.duration = duration;
         this.synopsis = synopsis;
-        this.posterPath = posterPath;
-        this.price = price;
+        this.synopsisId = synopsisId;
+        this.character = character;
+        this.director = director;
+        this.poster = poster;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
     public String getSynopsis() {
         return synopsis;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public String getSynopsisId() {
+        return synopsisId;
     }
 
-    public int getPrice() {
-        return price;
+    public String getCharacter() {
+        return character;
     }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
 }

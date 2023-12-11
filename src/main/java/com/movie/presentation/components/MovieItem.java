@@ -40,7 +40,7 @@ public class MovieItem extends javax.swing.JPanel {
         final int frameWidth = 1280 - 16;
         posterWidth = (frameWidth - 64 - 8 * (colCount - 1)) / colCount;
         posterHeight = posterWidth / 600 * 900;
-        ImageIcon imageIcon = new ImageIcon("assets/" + movie.getPosterPath());
+        ImageIcon imageIcon = new ImageIcon("assets/images/" + movie.getPoster() + ".jpg");
         imageIcon = new ImageIcon(
                 imageIcon.getImage().getScaledInstance(
                         (int) posterWidth,
