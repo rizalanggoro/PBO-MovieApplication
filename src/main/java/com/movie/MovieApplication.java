@@ -5,6 +5,7 @@
 package com.movie;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.movie.data.sources.SourceMovie;
 import com.movie.presentation.sections.SectionHome;
 import com.movie.presentation.sections.SectionMovieOrder;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class MovieApplication extends javax.swing.JFrame {
         initComponents();
 
         initContent();
-        navigateToSectionName(SectionHome.name);
+        navigateToSectionName(SectionMovieOrder.name);
 
     }
 
@@ -40,8 +41,8 @@ public class MovieApplication extends javax.swing.JFrame {
             navigateToSectionName(SectionMovieOrder.name);
         }));
         this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(
-            // new SourceMovie().readNowPlaying().getRight().get(0)
-            null
+            new SourceMovie().readNowPlaying().getRight().get(0)
+        // null
         ));
     }
 
@@ -87,7 +88,8 @@ public class MovieApplication extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(32, 100));
         jPanel4.add(jPanel5);
 
-        jLabel1.setText("Movie Application");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Movie Cinema");
         jPanel4.add(jLabel1);
 
         panelNavbar.add(jPanel4, java.awt.BorderLayout.LINE_START);

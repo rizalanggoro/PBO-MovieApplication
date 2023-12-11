@@ -5,6 +5,8 @@
 package com.movie.presentation.sections;
 
 import com.movie.domain.models.Movie;
+import com.movie.presentation.components.SeatItem;
+import com.movie.presentation.components.SeatLabelItem;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -41,8 +43,36 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     private void initializeCenter(Movie movie) {
         this.scrollPaneCenter.getVerticalScrollBar().setPreferredSize(new Dimension(16, 0));
 
+        this.labelCategoryAndDuration.setText(
+            "Kategori: " + movie.getCategory() + " ~ " + movie.getDuration()
+        );
+
         this.centerTitle.setText("<html>" + movie.getTitle() + "</html>");
         this.centerSynopsis.setText("<html>" + movie.getSynopsis() + "</html>");
+        this.centerSynopsisId.setText("<html>" + movie.getSynopsisId() + "</html>");
+
+        this.labelCharacter.setText(movie.getCharacter());
+        this.labelDirector.setText(movie.getDirector());
+
+        // seats
+        String seatRow = "ABCDEFGH";
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                if (r == 0 && c == 0) {
+                    this.containerSeats.add(new JPanel());
+                } else if (r == 0) {
+                    this.containerSeats.add(new SeatLabelItem(
+                        String.valueOf(c)
+                    ));
+                } else if (c == 0) {
+                    this.containerSeats.add(new SeatLabelItem(
+                        seatRow.substring(r - 1, r)
+                    ));
+                } else {
+                    this.containerSeats.add(new SeatItem());
+                }
+            }
+        }
 
         this.containerCenter.setPreferredSize(
             new Dimension(
@@ -82,31 +112,36 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        panelLeft = new javax.swing.JPanel();
         poster = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         iconStar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        panelCenter = new javax.swing.JPanel();
         scrollPaneCenter = new javax.swing.JScrollPane();
         containerCenter = new javax.swing.JPanel();
         centerTitle = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        labelCategoryAndDuration = new javax.swing.JLabel();
         centerSynopsis = new javax.swing.JLabel();
+        centerSynopsisId = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
+        labelCharacter = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        labelDirector = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        containerSeats = new javax.swing.JPanel();
+        panelRight = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(320, 664));
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
+        panelLeft.setPreferredSize(new java.awt.Dimension(320, 664));
+        panelLeft.setLayout(new javax.swing.BoxLayout(panelLeft, javax.swing.BoxLayout.Y_AXIS));
 
         poster.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 32, 32));
-        jPanel1.add(poster);
+        panelLeft.add(poster);
 
         jPanel4.setAlignmentX(0.0F);
         jPanel4.setMaximumSize(new java.awt.Dimension(32767, 32));
@@ -119,11 +154,11 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 8, 0, 0));
         jPanel4.add(jLabel2);
 
-        jPanel1.add(jPanel4);
+        panelLeft.add(jPanel4);
 
-        add(jPanel1, java.awt.BorderLayout.LINE_START);
+        add(panelLeft, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+        panelCenter.setLayout(new java.awt.BorderLayout());
 
         scrollPaneCenter.setBorder(null);
 
@@ -131,70 +166,104 @@ public class SectionMovieOrder extends javax.swing.JPanel {
 
         centerTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         centerTitle.setText("jLabel1");
-        centerTitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 0, 32));
+        centerTitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 0, 0, 32));
         containerCenter.add(centerTitle);
 
+        jPanel1.setAlignmentX(0.0F);
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 24));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        labelCategoryAndDuration.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelCategoryAndDuration.setText("jLabel6");
+        jPanel1.add(labelCategoryAndDuration, java.awt.BorderLayout.CENTER);
+
+        containerCenter.add(jPanel1);
+
         centerSynopsis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        centerSynopsis.setText("jLabel3");
-        centerSynopsis.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 32, 32, 32));
+        centerSynopsis.setText("jLabel6");
+        centerSynopsis.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 0, 0, 32));
         containerCenter.add(centerSynopsis);
+
+        centerSynopsisId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        centerSynopsisId.setText("jLabel3");
+        centerSynopsisId.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 32, 32));
+        containerCenter.add(centerSynopsisId);
 
         jSeparator1.setMaximumSize(new java.awt.Dimension(32767, 10));
         containerCenter.add(jSeparator1);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Pemeran Utama");
         containerCenter.add(jLabel1);
 
-        jLabel3.setText("jLabel3");
-        containerCenter.add(jLabel3);
+        labelCharacter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelCharacter.setText("jLabel3");
+        containerCenter.add(labelCharacter);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Sutradara");
+        containerCenter.add(jLabel4);
+
+        labelDirector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelDirector.setText("jLabel5");
+        containerCenter.add(labelDirector);
 
         jSeparator2.setMaximumSize(new java.awt.Dimension(32767, 10));
         containerCenter.add(jSeparator2);
 
-        jLabel4.setText("Sutradara");
-        containerCenter.add(jLabel4);
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Pilih Kursi");
+        containerCenter.add(jLabel3);
 
-        jLabel5.setText("jLabel5");
-        containerCenter.add(jLabel5);
+        containerSeats.setAlignmentX(0.0F);
+        containerSeats.setMaximumSize(new java.awt.Dimension(400, 400));
+        containerSeats.setPreferredSize(new java.awt.Dimension(400, 400));
+        containerSeats.setLayout(new java.awt.GridLayout(9, 9));
+        containerCenter.add(containerSeats);
 
         scrollPaneCenter.setViewportView(containerCenter);
 
-        jPanel2.add(scrollPaneCenter, java.awt.BorderLayout.CENTER);
+        panelCenter.add(scrollPaneCenter, java.awt.BorderLayout.CENTER);
 
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        add(panelCenter, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(320, 664));
+        panelRight.setPreferredSize(new java.awt.Dimension(320, 664));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelRightLayout = new javax.swing.GroupLayout(panelRight);
+        panelRight.setLayout(panelRightLayout);
+        panelRightLayout.setHorizontalGroup(
+            panelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 320, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelRightLayout.setVerticalGroup(
+            panelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 664, Short.MAX_VALUE)
         );
 
-        add(jPanel3, java.awt.BorderLayout.EAST);
+        add(panelRight, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel centerSynopsis;
+    private javax.swing.JLabel centerSynopsisId;
     private javax.swing.JLabel centerTitle;
     private javax.swing.JPanel containerCenter;
+    private javax.swing.JPanel containerSeats;
     private javax.swing.JLabel iconStar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel labelCategoryAndDuration;
+    private javax.swing.JLabel labelCharacter;
+    private javax.swing.JLabel labelDirector;
+    private javax.swing.JPanel panelCenter;
+    private javax.swing.JPanel panelLeft;
+    private javax.swing.JPanel panelRight;
     private javax.swing.JLabel poster;
     private javax.swing.JScrollPane scrollPaneCenter;
     // End of variables declaration//GEN-END:variables

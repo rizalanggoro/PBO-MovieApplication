@@ -8,13 +8,19 @@ package com.movie.presentation.components;
  *
  * @author user
  */
-public class SeatPositionItem extends javax.swing.JPanel {
+public class SeatLabelItem extends javax.swing.JPanel {
 
     /**
-     * Creates new form SeatPositionItem
+     * Creates new form SeatLabelItem
+     *
+     * @param label
      */
-    public SeatPositionItem() {
+    public SeatLabelItem(
+        String label
+    ) {
         initComponents();
+
+        this.label.setText(label);
     }
 
     /**
@@ -26,17 +32,17 @@ public class SeatPositionItem extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
 
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
+        setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("A");
-        add(jLabel1);
+        label.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label.setText("A");
+        add(label, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel label;
     // End of variables declaration//GEN-END:variables
 }
