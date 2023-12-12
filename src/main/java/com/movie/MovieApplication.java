@@ -5,9 +5,14 @@
 package com.movie;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.movie.data.sources.SourceMovie;
+import com.movie.data.repositories.RepositoryAuth;
+import com.movie.data.repositories.RepositoryMovie;
+import com.movie.domain.models.User;
+import com.movie.presentation.sections.SectionAuthentication;
 import com.movie.presentation.sections.SectionHome;
+import com.movie.presentation.sections.SectionLoading;
 import com.movie.presentation.sections.SectionMovieOrder;
+import com.movie.presentation.sections.SectionMyAccount;
 import java.awt.*;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -18,18 +23,36 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class MovieApplication extends javax.swing.JFrame {
 
+    public static User USER = null;
+
     /**
      * Creates new form MovieApplication
      */
     public MovieApplication() {
         initComponents();
 
-        initContent();
-        navigateToSectionName(SectionMovieOrder.name);
+        initAccount();
+    }
 
+    private void initAccount() {
+        // section loading
+        this.panelContent.add(SectionLoading.name, new SectionLoading());
+
+        new Thread(() -> {
+            var sessionResult = new RepositoryAuth().getSession();
+            if (sessionResult.isRight()) {
+                MovieApplication.USER = sessionResult.getRight();
+            } else {
+                System.out.println("session status: " + sessionResult.getLeft().message);
+            }
+
+            initContent();
+            navigateToSectionName(SectionHome.name);
+        }).start();
     }
 
     private void initContent() {
+
         this.panelContent.add(SectionHome.name, new SectionHome((movie) -> {
             for (Component component : this.panelContent.getComponents()) {
                 if (component instanceof SectionMovieOrder) {
@@ -41,9 +64,23 @@ public class MovieApplication extends javax.swing.JFrame {
             navigateToSectionName(SectionMovieOrder.name);
         }));
         this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(
-            new SourceMovie().readNowPlaying().getRight().get(0)
+            new RepositoryMovie().readNowPlaying().getRight().get(0)
         // null
         ));
+
+        // section my account
+        this.panelContent.add(SectionMyAccount.name, new SectionMyAccount(
+            () -> this.setVisible(false)
+        ));
+
+        // section authentication
+        this.panelContent.add(
+            SectionAuthentication.name,
+            new SectionAuthentication(() -> {
+                setVisible(false);
+                new MovieApplication().setVisible(true);
+            })
+        );
     }
 
     private void navigateToSectionName(String name) {
@@ -67,9 +104,7 @@ public class MovieApplication extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         buttonMovies = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        buttonMyTickets = new javax.swing.JButton();
+        buttonMyAccount = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         panelContent = new javax.swing.JPanel();
 
@@ -110,27 +145,14 @@ public class MovieApplication extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(8, 100));
         jPanel2.add(jPanel1);
 
-        jButton1.setText("Cari Film");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonMyAccount.setText("Akun Saya");
+        buttonMyAccount.setFocusPainted(false);
+        buttonMyAccount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonMyAccountActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1);
-
-        jPanel6.setMaximumSize(new java.awt.Dimension(8, 32767));
-        jPanel6.setMinimumSize(new java.awt.Dimension(8, 10));
-        jPanel6.setPreferredSize(new java.awt.Dimension(8, 100));
-        jPanel2.add(jPanel6);
-
-        buttonMyTickets.setText("Tiket Saya");
-        buttonMyTickets.setFocusPainted(false);
-        buttonMyTickets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonMyTicketsActionPerformed(evt);
-            }
-        });
-        jPanel2.add(buttonMyTickets);
+        jPanel2.add(buttonMyAccount);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(32, 100));
         jPanel2.add(jPanel3);
@@ -148,17 +170,17 @@ public class MovieApplication extends javax.swing.JFrame {
 
     private void buttonMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMoviesActionPerformed
         // TODO add your handling code here:
-        navigateToSectionName("home");
+        navigateToSectionName(SectionHome.name);
     }//GEN-LAST:event_buttonMoviesActionPerformed
 
-    private void buttonMyTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMyTicketsActionPerformed
+    private void buttonMyAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMyAccountActionPerformed
         // TODO add your handling code here:
-        navigateToSectionName("myTickets");
-    }//GEN-LAST:event_buttonMyTicketsActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if (MovieApplication.USER == null) {
+            navigateToSectionName(SectionAuthentication.name);
+        } else {
+            navigateToSectionName(SectionMyAccount.name);
+        }
+    }//GEN-LAST:event_buttonMyAccountActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,20 +219,41 @@ public class MovieApplication extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new MovieApplication().setVisible(true);
         });
+//        var result1 = new RepositoryAuth().login(new User("rizaldwianggoro@email.com", "12345678"));
+//        System.out.println("result1: "
+//            + (result1.isLeft()
+//            ? result1.getLeft().message : result1.getRight())
+//        );
+//
+//        var result2 = new RepositoryAuth().login(new User("rizaldwianggoro@email.com", "123456788"));
+//        System.out.println("result2: "
+//            + (result2.isLeft()
+//            ? result2.getLeft().message : result2.getRight())
+//        );
+//
+//        var result3 = new RepositoryAuth().login(new User("rizaldwianggoroo@email.com", "123456788"));
+//        System.out.println("result3: "
+//            + (result3.isLeft()
+//            ? result3.getLeft().message : result2.getRight())
+//        );
+//
+//        var session = new RepositoryAuth().getSession();
+//        System.out.println("session: "
+//            + (session.isLeft()
+//            ? session.getLeft().message : session.getRight().getName())
+//        );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupSelectDay;
     private javax.swing.JButton buttonMovies;
-    private javax.swing.JButton buttonMyTickets;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonMyAccount;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel panelContent;
     private javax.swing.JPanel panelNavbar;
     // End of variables declaration//GEN-END:variables

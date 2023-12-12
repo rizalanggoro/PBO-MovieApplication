@@ -4,7 +4,7 @@
  */
 package com.movie.presentation.sections;
 
-import com.movie.data.sources.SourceMovie;
+import com.movie.data.repositories.RepositoryMovie;
 import com.movie.domain.models.Movie;
 import com.movie.presentation.components.MovieItem;
 import com.movie.presentation.listeners.OnMovieItemClickListener;
@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  *
@@ -23,7 +24,7 @@ public class SectionHome extends javax.swing.JPanel {
     public static final String name = "home";
 
     private final OnMovieItemClickListener onMovieItemClickListener;
-    private final SourceMovie sourceMovie = new SourceMovie();
+    private final RepositoryMovie sourceMovie = new RepositoryMovie();
     private List<Movie> listMovies = new ArrayList<>();
 
     /**
@@ -73,13 +74,13 @@ public class SectionHome extends javax.swing.JPanel {
         }
 
         int colCount = 5;
-        int rowCount = (int) Math.ceil(listMovies.size() / colCount);
+        int rowCount = (this.listMovies.size() + colCount - 1) / colCount;
 
         ((GridLayout) this.containerMovies.getLayout()).setColumns(colCount);
         ((GridLayout) this.containerMovies.getLayout()).setRows(rowCount);
 
         int posterHeight = 0, containerDetailsHeight = 0;
-        for (Movie movie : listMovies) {
+        for (Movie movie : this.listMovies) {
             MovieItem movieItem = new MovieItem(movie, (param) -> this.onMovieItemClickListener.onClick(param));
             // posterWidth = (int) movieItem.getPosterWidth();
             posterHeight = (int) movieItem.getPosterHeight();
@@ -88,10 +89,19 @@ public class SectionHome extends javax.swing.JPanel {
             this.containerMovies.add(movieItem);
         }
 
-        this.containerMovies.setPreferredSize(new Dimension(
+        if (this.listMovies.size() < colCount) {
+            int n = colCount - this.listMovies.size();
+            for (int a = 0; a < n; a++) {
+                this.containerMovies.add(new JPanel());
+            }
+        }
+
+        final var containerMoviesDimension = new Dimension(
             1280 - this.scrollPane.getVerticalScrollBar().getWidth() - ((colCount - 1) * 8),
             rowCount * (posterHeight + containerDetailsHeight) + ((rowCount - 1) * 8) + 64
-        ));
+        );
+        this.containerMovies.setPreferredSize(containerMoviesDimension);
+        this.containerMovies.setMaximumSize(containerMoviesDimension);
 
         this.containerMovies.setVisible(true);
         this.title.setText("Movie: " + this.comboBoxFilterMovie.getSelectedItem());
@@ -108,7 +118,7 @@ public class SectionHome extends javax.swing.JPanel {
 
         scrollPane = new javax.swing.JScrollPane();
         container = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        containerHeader = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         comboBoxFilterMovie = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
@@ -123,10 +133,10 @@ public class SectionHome extends javax.swing.JPanel {
 
         container.setLayout(new javax.swing.BoxLayout(container, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 0, 32));
-        jPanel1.setAlignmentX(0.0F);
-        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 96));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        containerHeader.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 0, 32));
+        containerHeader.setAlignmentX(0.0F);
+        containerHeader.setMaximumSize(new java.awt.Dimension(32767, 96));
+        containerHeader.setLayout(new java.awt.BorderLayout());
 
         comboBoxFilterMovie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sedang Tayang", "Akan Datang" }));
         comboBoxFilterMovie.setAlignmentX(0.0F);
@@ -137,15 +147,15 @@ public class SectionHome extends javax.swing.JPanel {
         });
         jPanel2.add(comboBoxFilterMovie);
 
-        jPanel1.add(jPanel2, java.awt.BorderLayout.EAST);
+        containerHeader.add(jPanel2, java.awt.BorderLayout.EAST);
 
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setText("Movie: Sedang Tayang");
         jPanel3.add(title);
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.WEST);
+        containerHeader.add(jPanel3, java.awt.BorderLayout.WEST);
 
-        container.add(jPanel1);
+        container.add(containerHeader);
 
         containerMovies.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 32, 32));
         containerMovies.setAlignmentX(0.0F);
@@ -168,8 +178,8 @@ public class SectionHome extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxFilterMovie;
     private javax.swing.JPanel container;
+    private javax.swing.JPanel containerHeader;
     private javax.swing.JPanel containerMovies;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane scrollPane;

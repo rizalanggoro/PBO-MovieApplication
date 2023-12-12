@@ -18,16 +18,20 @@ public class Movie {
     private final String character;
     private final String director;
     private final String poster;
+    private final int ticketPrice;
+    private final boolean isUpcoming;
 
     public Movie(
-            String title,
-            String category,
-            String duration,
-            String synopsis,
-            String synopsisId,
-            String character,
-            String director,
-            String poster
+        String title,
+        String category,
+        String duration,
+        String synopsis,
+        String synopsisId,
+        String character,
+        String director,
+        String poster,
+        int ticketPrice,
+        boolean isUpcoming
     ) {
         this.title = title;
         this.category = category;
@@ -37,6 +41,8 @@ public class Movie {
         this.character = character;
         this.director = director;
         this.poster = poster;
+        this.ticketPrice = ticketPrice;
+        this.isUpcoming = isUpcoming;
     }
 
     public String getTitle() {
@@ -69,6 +75,14 @@ public class Movie {
 
     public String getPoster() {
         return poster;
+    }
+
+    public int getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public boolean isUpcoming() {
+        return isUpcoming;
     }
 
 }

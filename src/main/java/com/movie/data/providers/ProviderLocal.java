@@ -8,6 +8,8 @@ import com.movie.core.Either;
 import com.movie.core.Failure;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -15,6 +17,11 @@ import java.util.Scanner;
  * @author user
  */
 public class ProviderLocal {
+
+    public boolean isFileExists(String filepath) {
+        File file = new File(filepath);
+        return file.exists();
+    }
 
     public Either<Failure, String> read(String filename) {
         try {
@@ -29,6 +36,27 @@ public class ProviderLocal {
         } catch (FileNotFoundException e) {
             return Either.left(new Failure(e.getMessage()));
         }
+    }
+
+    public Either<Failure, Boolean> create(String filepath, String data) {
+        try {
+            File file = new File(filepath);
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(data);
+            fileWriter.close();
+
+            return Either.right(true);
+        } catch (IOException e) {
+            return Either.left(new Failure(e.getMessage()));
+        }
+    }
+
+    public boolean delete(String filepath) {
+        File file = new File(filepath);
+        return file.delete();
     }
 
 }

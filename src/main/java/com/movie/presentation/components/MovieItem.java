@@ -6,8 +6,8 @@ package com.movie.presentation.components;
 
 import com.movie.domain.models.Movie;
 import com.movie.presentation.listeners.OnMovieItemClickListener;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  *
@@ -28,8 +28,8 @@ public class MovieItem extends javax.swing.JPanel {
      * @param onMovieItemClickListener
      */
     public MovieItem(
-            Movie movie,
-            OnMovieItemClickListener onMovieItemClickListener
+        Movie movie,
+        OnMovieItemClickListener onMovieItemClickListener
     ) {
         this.movie = movie;
         this.onMovieItemClickListener = onMovieItemClickListener;
@@ -42,16 +42,17 @@ public class MovieItem extends javax.swing.JPanel {
         posterHeight = posterWidth / 600 * 900;
         ImageIcon imageIcon = new ImageIcon("assets/images/" + movie.getPoster() + ".jpg");
         imageIcon = new ImageIcon(
-                imageIcon.getImage().getScaledInstance(
-                        (int) posterWidth,
-                        (int) posterHeight,
-                        Image.SCALE_SMOOTH
-                )
+            imageIcon.getImage().getScaledInstance(
+                (int) posterWidth,
+                (int) posterHeight,
+                Image.SCALE_SMOOTH
+            )
         );
         this.labelPoster.setIcon(imageIcon);
 
         this.labelTitle.setText(movie.getTitle());
         this.labelSynopsis.setText(movie.getSynopsis());
+        this.buttonOrder.setText(movie.isUpcoming() ? "Lihat rincian" : "Pesan");
 
         this.containerDetailsHeight = this.containerDetails.getPreferredSize().height;
 
@@ -123,7 +124,6 @@ public class MovieItem extends javax.swing.JPanel {
         // TODO add your handling code here:
         this.onMovieItemClickListener.onClick(this.movie);
     }//GEN-LAST:event_buttonOrderActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonOrder;
