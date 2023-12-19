@@ -4,8 +4,10 @@
  */
 package com.movie.presentation.components;
 
+import com.movie.MovieApplication;
 import com.movie.domain.models.Movie;
-import com.movie.presentation.listeners.OnMovieItemClickListener;
+import com.movie.presentation.sections.SectionMovieDetail;
+import com.movie.presentation.sections.SectionMovieOrder;
 import java.awt.*;
 import javax.swing.*;
 
@@ -18,21 +20,17 @@ public class MovieItem extends javax.swing.JPanel {
     private final double posterWidth;
     private final double posterHeight;
     private final int containerDetailsHeight;
-    private final OnMovieItemClickListener onMovieItemClickListener;
     private final Movie movie;
 
     /**
      * Creates new form MovieItem
      *
      * @param movie
-     * @param onMovieItemClickListener
      */
     public MovieItem(
-        Movie movie,
-        OnMovieItemClickListener onMovieItemClickListener
+        Movie movie
     ) {
         this.movie = movie;
-        this.onMovieItemClickListener = onMovieItemClickListener;
 
         initComponents();
 
@@ -52,7 +50,7 @@ public class MovieItem extends javax.swing.JPanel {
 
         this.labelTitle.setText(movie.getTitle());
         this.labelSynopsis.setText(movie.getSynopsis());
-        this.buttonOrder.setText(movie.isUpcoming() ? "Lihat rincian" : "Pesan");
+        this.buttonAction.setText(movie.isUpcoming() ? "Lihat rincian" : "Pesan");
 
         this.containerDetailsHeight = this.containerDetails.getPreferredSize().height;
 
@@ -83,7 +81,7 @@ public class MovieItem extends javax.swing.JPanel {
         labelTitle = new javax.swing.JLabel();
         labelSynopsis = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        buttonOrder = new javax.swing.JButton();
+        buttonAction = new javax.swing.JButton();
         labelPoster = new javax.swing.JLabel();
 
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -104,13 +102,13 @@ public class MovieItem extends javax.swing.JPanel {
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        buttonOrder.setText("Pesan");
-        buttonOrder.addActionListener(new java.awt.event.ActionListener() {
+        buttonAction.setText("Pesan");
+        buttonAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonOrderActionPerformed(evt);
+                buttonActionActionPerformed(evt);
             }
         });
-        jPanel1.add(buttonOrder, java.awt.BorderLayout.CENTER);
+        jPanel1.add(buttonAction, java.awt.BorderLayout.CENTER);
 
         containerDetails.add(jPanel1);
 
@@ -120,13 +118,23 @@ public class MovieItem extends javax.swing.JPanel {
         add(labelPoster, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOrderActionPerformed
+    private void buttonActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionActionPerformed
         // TODO add your handling code here:
-        this.onMovieItemClickListener.onClick(this.movie);
-    }//GEN-LAST:event_buttonOrderActionPerformed
+        if (this.movie.isUpcoming()) {
+            MovieApplication.application.navigateToSection(
+                new SectionMovieDetail(this.movie),
+                true
+            );
+        } else {
+            MovieApplication.application.navigateToSection(
+                new SectionMovieOrder(this.movie),
+                true
+            );
+        }
+    }//GEN-LAST:event_buttonActionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonOrder;
+    private javax.swing.JButton buttonAction;
     private javax.swing.JPanel containerDetails;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelPoster;

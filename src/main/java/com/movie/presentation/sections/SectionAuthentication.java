@@ -4,9 +4,10 @@
  */
 package com.movie.presentation.sections;
 
+import com.movie.MovieApplication;
 import com.movie.data.repositories.RepositoryAuth;
 import com.movie.domain.models.User;
-import com.movie.presentation.listeners.OnAuthListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,28 +15,24 @@ import com.movie.presentation.listeners.OnAuthListener;
  */
 public class SectionAuthentication extends javax.swing.JPanel {
 
-    public static final String name = "authentication";
-
     private boolean isLogin = true;
-    private final OnAuthListener authListener;
 
     /**
      * Creates new form SectionAuthentication
      *
-     * @param authListener
      */
-    public SectionAuthentication(
-        OnAuthListener authListener
-    ) {
-        this.authListener = authListener;
-
+    public SectionAuthentication() {
         initComponents();
         initForm();
 
     }
 
+    @Override
+    public String toString() {
+        return "authentication";
+    }
+
     private void initForm() {
-        this.labelErrorMessage.setVisible(false);
         this.labelName.setVisible(!this.isLogin);
         this.textFieldName.setVisible(!this.isLogin);
 
@@ -56,31 +53,35 @@ public class SectionAuthentication extends javax.swing.JPanel {
     }
 
     private void register() {
-        this.labelErrorMessage.setVisible(false);
-
         final String name = this.textFieldName.getText();
         final String email = this.textFieldEmail.getText();
         final String password = this.textFieldPassword.getText();
 
         new Thread(() -> {
             var registerResult = new RepositoryAuth().register(
-                new User(name, email, password)
+                new User(name, email, password, 0)
             );
 
-            String message;
             if (registerResult.isLeft()) {
-                message = registerResult.getLeft().message;
+                JOptionPane.showMessageDialog(
+                    this,
+                    registerResult.getLeft().message,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             } else {
-                message = "Pendaftaran berhasil! Silahkan masuk";
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Pendaftaran berhasil dilakukan! Silahkan masuk",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
             }
 
-            this.labelErrorMessage.setVisible(true);
-            this.labelErrorMessage.setText(message);
         }).start();
     }
 
     private void login() {
-        this.labelErrorMessage.setVisible(false);
 
         final String email = this.textFieldEmail.getText();
         final String password = this.textFieldPassword.getText();
@@ -90,16 +91,19 @@ public class SectionAuthentication extends javax.swing.JPanel {
                 new User(email, password)
             );
 
-            String message;
             if (loginResult.isLeft()) {
-                message = loginResult.getLeft().message;
+                JOptionPane.showMessageDialog(
+                    this,
+                    loginResult.getLeft().message,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             } else {
-                message = "Berhasil masuk!";
-                this.authListener.loggedIn();
+                MovieApplication.application.setVisible(false);
+                MovieApplication.application = new MovieApplication();
+                MovieApplication.application.setVisible(true);
             }
 
-            this.labelErrorMessage.setVisible(true);
-            this.labelErrorMessage.setText(message);
         }).start();
     }
 
@@ -124,8 +128,6 @@ public class SectionAuthentication extends javax.swing.JPanel {
         labelPassword = new javax.swing.JLabel();
         textFieldPassword = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
-        labelErrorMessage = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
         buttonSubmit = new javax.swing.JButton();
         buttonSwitch = new javax.swing.JButton();
 
@@ -146,37 +148,39 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(jPanel3);
 
         labelName.setText("Nama lengkap");
+        labelName.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 4, 0));
         jPanel1.add(labelName);
 
         textFieldName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         textFieldName.setText("Rizal Dwi Anggoro");
         textFieldName.setAlignmentX(0.0F);
         textFieldName.setMaximumSize(new java.awt.Dimension(2147483647, 32));
+        textFieldName.setPreferredSize(new java.awt.Dimension(131, 32));
         jPanel1.add(textFieldName);
 
         labelEmail.setText("Alamat email");
+        labelEmail.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 4, 0));
         jPanel1.add(labelEmail);
 
         textFieldEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         textFieldEmail.setText("rizaldwianggoro@email.com");
         textFieldEmail.setAlignmentX(0.0F);
         textFieldEmail.setMaximumSize(new java.awt.Dimension(2147483647, 32));
+        textFieldEmail.setPreferredSize(new java.awt.Dimension(190, 32));
         jPanel1.add(textFieldEmail);
 
         labelPassword.setText("Kata sandi");
+        labelPassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 4, 0));
         jPanel1.add(labelPassword);
 
         textFieldPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         textFieldPassword.setText("12345678");
         textFieldPassword.setAlignmentX(0.0F);
         textFieldPassword.setMaximumSize(new java.awt.Dimension(2147483647, 32));
+        textFieldPassword.setMinimumSize(new java.awt.Dimension(68, 32));
+        textFieldPassword.setPreferredSize(new java.awt.Dimension(83, 32));
         jPanel1.add(textFieldPassword);
         jPanel1.add(jPanel7);
-
-        labelErrorMessage.setForeground(new java.awt.Color(255, 102, 102));
-        labelErrorMessage.setText("jLabel1");
-        jPanel1.add(labelErrorMessage);
-        jPanel1.add(jPanel4);
 
         buttonSubmit.setText("jButton1");
         buttonSubmit.setMaximumSize(new java.awt.Dimension(320, 27));
@@ -226,10 +230,8 @@ public class SectionAuthentication extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel labelEmail;
-    private javax.swing.JLabel labelErrorMessage;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPassword;
     private javax.swing.JLabel subtitle;

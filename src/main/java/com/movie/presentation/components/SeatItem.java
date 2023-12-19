@@ -4,6 +4,7 @@
  */
 package com.movie.presentation.components;
 
+import com.movie.presentation.listeners.OnMovieItemClickListener;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import javax.swing.JToggleButton;
@@ -16,11 +17,18 @@ import org.kordamp.ikonli.swing.FontIcon;
  */
 public class SeatItem extends javax.swing.JPanel {
 
+    private final OnMovieItemClickListener onMovieItemClickListener;
+
     /**
      * Creates new form SeatPositionItem
      *
+     * @param onMovieItemClickListener
      */
-    public SeatItem() {
+    public SeatItem(
+        OnMovieItemClickListener onMovieItemClickListener
+    ) {
+        this.onMovieItemClickListener = onMovieItemClickListener;
+
         initComponents();
 
         FontIcon fontIcon = FontIcon.of(FluentUiFilledAL.BORDER_TOP_BOTTOM_DOUBLE_24);
@@ -55,8 +63,10 @@ public class SeatItem extends javax.swing.JPanel {
         FontIcon fontIcon = (FontIcon) ((JToggleButton) evt.getItem()).getIcon();
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             fontIcon.setIconColor(Color.RED);
+            this.onMovieItemClickListener.onSelected();
         } else {
             fontIcon.setIconColor(Color.WHITE);
+            this.onMovieItemClickListener.onUnselected();
         }
     }//GEN-LAST:event_toggleButtonItemStateChanged
 

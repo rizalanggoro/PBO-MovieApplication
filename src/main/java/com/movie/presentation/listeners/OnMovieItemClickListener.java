@@ -4,12 +4,13 @@
  */
 package com.movie.presentation.listeners;
 
-import com.movie.domain.models.Movie;
-
 /**
  *
  * @author user
  */
 public interface OnMovieItemClickListener {
-    void onClick(Movie movie);
+
+    void onSelected();
+
+    void onUnselected();
 }

@@ -5,9 +5,11 @@
 package com.movie.presentation.sections;
 
 import com.movie.MovieApplication;
+import com.movie.core.Utils;
 import com.movie.data.repositories.RepositoryAuth;
 import com.movie.domain.models.User;
-import com.movie.presentation.listeners.OnLogoutListener;
+import com.movie.domain.usecases.UseCaseTopUpBalance;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,20 +17,20 @@ import com.movie.presentation.listeners.OnLogoutListener;
  */
 public class SectionMyAccount extends javax.swing.JPanel {
 
-    public static final String name = "myAccount";
-
-    private final OnLogoutListener logoutListener;
-
     /**
      * Creates new form SectionMyAccount
+     *
      */
-    public SectionMyAccount(
-        OnLogoutListener logoutListener
-    ) {
-        this.logoutListener = logoutListener;
+    public SectionMyAccount() {
 
         initComponents();
         initProfile();
+
+    }
+
+    @Override
+    public String toString() {
+        return "myAccount";
     }
 
     private void initProfile() {
@@ -36,6 +38,7 @@ public class SectionMyAccount extends javax.swing.JPanel {
         if (user != null) {
             this.labelName.setText(user.getName());
             this.labelEmail.setText(user.getEmail());
+            this.labelBalance.setText("Saldo: Rp " + Utils.Format.decimal(user.getBalance()) + ",00");
         }
     }
 
@@ -52,7 +55,9 @@ public class SectionMyAccount extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         labelName = new javax.swing.JLabel();
         labelEmail = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         labelBalance = new javax.swing.JLabel();
+        buttonTopUp = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         buttonLogout = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -69,8 +74,21 @@ public class SectionMyAccount extends javax.swing.JPanel {
         labelEmail.setText("jLabel2");
         jPanel2.add(labelEmail);
 
+        jPanel5.setAlignmentX(0.0F);
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 0, 0));
+
         labelBalance.setText("jLabel4");
-        jPanel2.add(labelBalance);
+        jPanel5.add(labelBalance);
+
+        buttonTopUp.setText("Isi saldo");
+        buttonTopUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonTopUpActionPerformed(evt);
+            }
+        });
+        jPanel5.add(buttonTopUp);
+
+        jPanel2.add(jPanel5);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -96,7 +114,7 @@ public class SectionMyAccount extends javax.swing.JPanel {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 252, Short.MAX_VALUE)
+            .addGap(0, 241, Short.MAX_VALUE)
         );
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -106,16 +124,51 @@ public class SectionMyAccount extends javax.swing.JPanel {
         // TODO add your handling code here:
         final boolean result = new RepositoryAuth().logout();
         if (result) {
-            this.logoutListener.call();
+            MovieApplication.application.setVisible(false);
+            MovieApplication.application = new MovieApplication();
+            MovieApplication.application.setVisible(true);
         }
     }//GEN-LAST:event_buttonLogoutActionPerformed
 
+    private void buttonTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTopUpActionPerformed
+        // TODO add your handling code here:
+        final String amount = JOptionPane.showInputDialog(
+            this,
+            "Masukkan nominal saldo yang Anda inginkan",
+            "Isi Saldo",
+            JOptionPane.QUESTION_MESSAGE
+        );
+        final var result = new UseCaseTopUpBalance().call(amount);
+        if (result.isLeft()) {
+            // failure
+            JOptionPane.showMessageDialog(
+                this,
+                result.getLeft().message,
+                "Terjadi Kesalahan",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } else {
+            // success
+            MovieApplication.USER = result.getRight();
+            initProfile();
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Top up saldo berhasil dilakukan!",
+                "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_buttonTopUpActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonLogout;
+    private javax.swing.JButton buttonTopUp;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel labelBalance;
     private javax.swing.JLabel labelEmail;
     private javax.swing.JLabel labelName;

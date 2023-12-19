@@ -4,6 +4,8 @@
  */
 package com.movie.domain.models;
 
+import java.util.List;
+
 /**
  *
  * @author user
@@ -20,6 +22,8 @@ public class Movie {
     private final String poster;
     private final int ticketPrice;
     private final boolean isUpcoming;
+    private final String theater;
+    private final List<String> sessions;
 
     public Movie(
         String title,
@@ -31,7 +35,9 @@ public class Movie {
         String director,
         String poster,
         int ticketPrice,
-        boolean isUpcoming
+        boolean isUpcoming,
+        String theater,
+        List<String> sessions
     ) {
         this.title = title;
         this.category = category;
@@ -43,6 +49,8 @@ public class Movie {
         this.poster = poster;
         this.ticketPrice = ticketPrice;
         this.isUpcoming = isUpcoming;
+        this.theater = theater;
+        this.sessions = sessions;
     }
 
     public String getTitle() {
@@ -83,6 +91,14 @@ public class Movie {
 
     public boolean isUpcoming() {
         return isUpcoming;
+    }
+
+    public String getTheater() {
+        return theater;
+    }
+
+    public List<String> getSessions() {
+        return sessions;
     }
 
 }

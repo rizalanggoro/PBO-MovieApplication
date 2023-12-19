@@ -4,10 +4,10 @@
  */
 package com.movie.presentation.sections;
 
-import com.movie.data.repositories.RepositoryMovie;
 import com.movie.domain.models.Movie;
+import com.movie.domain.usecases.UseCaseReadNowPlayingMovies;
+import com.movie.domain.usecases.UseCaseReadUpcomingMovies;
 import com.movie.presentation.components.MovieItem;
-import com.movie.presentation.listeners.OnMovieItemClickListener;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
@@ -21,21 +21,13 @@ import javax.swing.JPanel;
  */
 public class SectionHome extends javax.swing.JPanel {
 
-    public static final String name = "home";
-
-    private final OnMovieItemClickListener onMovieItemClickListener;
-    private final RepositoryMovie sourceMovie = new RepositoryMovie();
     private List<Movie> listMovies = new ArrayList<>();
 
     /**
      * Creates new form SectionHome
      *
-     * @param onMovieItemClickListener
      */
-    public SectionHome(
-        OnMovieItemClickListener onMovieItemClickListener
-    ) {
-        this.onMovieItemClickListener = onMovieItemClickListener;
+    public SectionHome() {
 
         // initialize components
         initComponents();
@@ -44,7 +36,12 @@ public class SectionHome extends javax.swing.JPanel {
         initListMovies();
 
         this.scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(16, 0));
+        this.scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    }
 
+    @Override
+    public String toString() {
+        return "home";
     }
 
     private void initListMovies() {
@@ -53,13 +50,13 @@ public class SectionHome extends javax.swing.JPanel {
             this.containerMovies.setVisible(false);
             if (this.comboBoxFilterMovie.getSelectedIndex() == 0) {
                 // now playing
-                var result = this.sourceMovie.readNowPlaying();
+                var result = new UseCaseReadNowPlayingMovies().call(null);
                 if (result.isRight()) {
                     this.listMovies = result.getRight();
                 }
             } else {
                 // upcoming
-                var result = this.sourceMovie.readUpcoming();
+                var result = new UseCaseReadUpcomingMovies().call(null);
                 if (result.isRight()) {
                     this.listMovies = result.getRight();
                 }
@@ -81,7 +78,7 @@ public class SectionHome extends javax.swing.JPanel {
 
         int posterHeight = 0, containerDetailsHeight = 0;
         for (Movie movie : this.listMovies) {
-            MovieItem movieItem = new MovieItem(movie, (param) -> this.onMovieItemClickListener.onClick(param));
+            MovieItem movieItem = new MovieItem(movie);
             // posterWidth = (int) movieItem.getPosterWidth();
             posterHeight = (int) movieItem.getPosterHeight();
             containerDetailsHeight = movieItem.getContainerDetailsHeight();
@@ -97,7 +94,7 @@ public class SectionHome extends javax.swing.JPanel {
         }
 
         final var containerMoviesDimension = new Dimension(
-            1280 - this.scrollPane.getVerticalScrollBar().getWidth() - ((colCount - 1) * 8),
+            1280 - this.scrollPane.getVerticalScrollBar().getWidth(),
             rowCount * (posterHeight + containerDetailsHeight) + ((rowCount - 1) * 8) + 64
         );
         this.containerMovies.setPreferredSize(containerMoviesDimension);

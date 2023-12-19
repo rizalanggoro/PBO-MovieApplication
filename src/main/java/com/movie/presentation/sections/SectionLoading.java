@@ -10,13 +10,16 @@ package com.movie.presentation.sections;
  */
 public class SectionLoading extends javax.swing.JPanel {
 
-    public static final String name = "loading";
-
     /**
      * Creates new form SectionLoading
      */
     public SectionLoading() {
         initComponents();
+    }
+
+    @Override
+    public String toString() {
+        return "loading";
     }
 
     /**

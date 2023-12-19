@@ -8,8 +8,14 @@
         "character": "Thomas Dam",
         "director": "Walt Dohrn",
         "poster": "wiFUG5vF50xY2TKHxjd0Qj0auOT",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 1",
+        "sessions": [
+            "12.00-13.45", 
+            "18.30-20.15",
+            "16.30-18.15"
+        ]
     },
     {
         "title": "Wonka",
@@ -20,8 +26,13 @@
         "character": "Roald Dahl",
         "director": "Paul King",
         "poster": "xAKI0O5hUXxbmHRBNg72IzFQ06a",
-        "ticketPrice": 40.000,
-        "isUpcoming": false
+        "ticketPrice": 40000,
+        "isUpcoming": false,
+        "theater": "Teater 1",
+        "sessions": [
+            "14.00-16.15", 
+            "20.30-22.30"
+        ]
     },
     {
         "title": "Five Nights at Freddy's",
@@ -32,8 +43,13 @@
         "character": "Josh Hutcherson",
         "director": "Emma Tammi",
         "poster": "7BpNtNfxuocYEVREzVMO75hso1l",
-        "ticketPrice": 40.000,
-        "isUpcoming": false
+        "ticketPrice": 40000,
+        "isUpcoming": false,
+        "theater": "Teater 2",
+        "sessions": [
+            "13.00-15.00", 
+            "19.00-21.00"
+        ]
     },
     {
         "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
@@ -44,8 +60,13 @@
         "character": "Tom Blyth",
         "director": "Francis Lawrence",
         "poster": "mBaXZ95R2OxueZhvQbcEWy2DqyO",
-        "ticketPrice": 40.000,
-        "isUpcoming": false
+        "ticketPrice": 40000,
+        "isUpcoming": false,
+        "theater": "Teater 2",
+        "sessions": [
+            "15.30-18.30", 
+            "21.15-24.00"
+        ]
     },
     {
         "title": "The Marvels",
@@ -56,8 +77,13 @@
         "character": "Brie Larson",
         "director": "Nia DaCosta",
         "poster": "3sXv15ymVkaV7E18m4TlTgwNkAN",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 3",
+        "sessions": [
+            "12.00-14.00", 
+            "17.00-19.00"
+        ]
     },
     {
         "title": "Napoleon",
@@ -68,8 +94,13 @@
         "character": "Joaquin Phoenix",
         "director": "Ridley Scott",
         "poster": "jE5o7y9K6pZtWNNMEw3IdpHuncR",
-        "ticketPrice": 40.000,
-        "isUpcoming": false
+        "ticketPrice": 40000,
+        "isUpcoming": false,
+        "theater": "Teater 3",
+        "sessions": [
+            "14.00-17.00", 
+            "19.00-22.00"
+        ]
     },
     {
         "title": "Wish",
@@ -80,8 +111,14 @@
         "character": "Ariana DeBose",
         "director": "Chris Buck, Fawn Veerasunthorn",
         "poster": "AcoVfiv1rrWOmAdpnAMnM56ki19",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 4",
+        "sessions": [
+            "13.00-14.45", 
+            "17.00-18.45",
+            "21.00-22.45"
+        ]
     },
     {
         "title": "Saw X",
@@ -92,8 +129,13 @@
         "character": "Tobin Bell",
         "director": "Kevin Greutert",
         "poster": "aQPeznSu7XDTrrdCtT5eLiu52Yu",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 4",
+        "sessions": [
+            "14.45-17.00", 
+            "18.45-21.00"
+        ]
     },
     {
         "title": "May December",
@@ -104,8 +146,14 @@
         "character": "Natalie Portman",
         "director": "Todd Haynes",
         "poster": "yibtHDMO70RueiEmtrcJeTiiHFo",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 5",
+        "sessions": [
+            "12.30-14.30", 
+            "17.15-19.15",
+            "21.45-23.45"
+        ]
     },
     {
         "title": "Thanksgiving",
@@ -116,7 +164,12 @@
         "character": "Patrick Dempsey",
         "director": "Eli Roth",
         "poster": "f5f3TEVst1nHHyqgn7Z3tlwnBIH",
-        "ticketPrice": 35.000,
-        "isUpcoming": false
+        "ticketPrice": 35000,
+        "isUpcoming": false,
+        "theater": "Teater 5",
+        "sessions": [
+            "15.00-17.00", 
+            "19.30-21.30"
+        ]
     }
 ]

@@ -13,17 +13,22 @@ public class User {
     private final String name;
     private final String email;
     private final String password;
+    private long balance;
 
+    // constructor for register
     public User(
         String name,
         String email,
-        String password
+        String password,
+        long balance
     ) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.balance = balance;
     }
 
+    // contstructor for login
     public User(
         String email,
         String password
@@ -31,6 +36,7 @@ public class User {
         this.name = null;
         this.email = email;
         this.password = password;
+        this.balance = 0;
     }
 
     public String getName() {
@@ -43,6 +49,14 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 
 }

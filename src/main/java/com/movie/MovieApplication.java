@@ -6,14 +6,15 @@ package com.movie;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.movie.data.repositories.RepositoryAuth;
-import com.movie.data.repositories.RepositoryMovie;
 import com.movie.domain.models.User;
+import com.movie.domain.usecases.UseCaseReadNowPlayingMovies;
 import com.movie.presentation.sections.SectionAuthentication;
 import com.movie.presentation.sections.SectionHome;
 import com.movie.presentation.sections.SectionLoading;
 import com.movie.presentation.sections.SectionMovieOrder;
 import com.movie.presentation.sections.SectionMyAccount;
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Component;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -36,57 +37,95 @@ public class MovieApplication extends javax.swing.JFrame {
 
     private void initAccount() {
         // section loading
-        this.panelContent.add(SectionLoading.name, new SectionLoading());
+        navigateToSection(new SectionLoading(), false);
 
         new Thread(() -> {
             var sessionResult = new RepositoryAuth().getSession();
             if (sessionResult.isRight()) {
                 MovieApplication.USER = sessionResult.getRight();
             } else {
+                MovieApplication.USER = null;
                 System.out.println("session status: " + sessionResult.getLeft().message);
             }
 
-            initContent();
-            navigateToSectionName(SectionHome.name);
+//            initContent();
+//            navigateToSectionName(SectionMyAccount.name);
+            final var result = new UseCaseReadNowPlayingMovies().call(null);
+            if (result.isRight()) {
+                navigateToSection(new SectionMovieOrder(result.getRight().get(4)), false);
+            }
         }).start();
     }
 
-    private void initContent() {
-
-        this.panelContent.add(SectionHome.name, new SectionHome((movie) -> {
-            for (Component component : this.panelContent.getComponents()) {
-                if (component instanceof SectionMovieOrder) {
-                    this.panelContent.remove(component);
-                    break;
+    public void navigateToSection(
+        Component component,
+        boolean rebuild
+    ) {
+        boolean isAdded = false;
+        for (Component comp : this.panelContent.getComponents()) {
+            if (comp.toString().equals(component.toString())) {
+                if (rebuild) {
+                    this.panelContent.remove(comp);
+                    isAdded = false;
+                } else {
+                    isAdded = true;
                 }
+                break;
             }
-            this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(movie));
-            navigateToSectionName(SectionMovieOrder.name);
-        }));
-        this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(
-            new RepositoryMovie().readNowPlaying().getRight().get(0)
-        // null
-        ));
+        }
 
-        // section my account
-        this.panelContent.add(SectionMyAccount.name, new SectionMyAccount(
-            () -> this.setVisible(false)
-        ));
+        if (!isAdded) {
+            this.panelContent.add(component.toString(), component);
+        }
 
-        // section authentication
-        this.panelContent.add(
-            SectionAuthentication.name,
-            new SectionAuthentication(() -> {
-                setVisible(false);
-                new MovieApplication().setVisible(true);
-            })
-        );
+        ((CardLayout) this.panelContent.getLayout()).show(this.panelContent, component.toString());
+
+        System.out.println(this.panelContent.getComponentCount());
+        for (Component comp : this.panelContent.getComponents()) {
+            System.out.println("- " + comp.toString());
+        }
     }
 
-    private void navigateToSectionName(String name) {
-        ((CardLayout) this.panelContent.getLayout()).show(this.panelContent, name);
-    }
-
+//    private void initContent() {
+//        // section home
+//        this.panelContent.add(SectionHome.name, new SectionHome((movie) -> {
+//            for (Component component : this.panelContent.getComponents()) {
+//                if (component instanceof SectionMovieOrder) {
+//                    this.panelContent.remove(component);
+//                    break;
+//                }
+//            }
+//            this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(movie));
+//            navigateToSectionName(SectionMovieOrder.name);
+//        }));
+//
+//        // section movie order
+//        this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(
+//            new RepositoryMovie().readNowPlaying().getRight().get(0)
+//        // null
+//        ));
+//
+//        // section my account
+//        this.panelContent.add(
+//            SectionMyAccount.name,
+//            new SectionMyAccount(() -> {
+//                this.setVisible(false);
+//                new MovieApplication().setVisible(true);
+//            })
+//        );
+//
+//        // section authentication
+//        this.panelContent.add(
+//            SectionAuthentication.name,
+//            new SectionAuthentication(() -> {
+//                this.setVisible(false);
+//                new MovieApplication().setVisible(true);
+//            })
+//        );
+//    }
+//    private void navigateToSectionName(String name) {
+//        ((CardLayout) this.panelContent.getLayout()).show(this.panelContent, name);
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,17 +209,19 @@ public class MovieApplication extends javax.swing.JFrame {
 
     private void buttonMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMoviesActionPerformed
         // TODO add your handling code here:
-        navigateToSectionName(SectionHome.name);
+        application.navigateToSection(new SectionHome(), false);
     }//GEN-LAST:event_buttonMoviesActionPerformed
 
     private void buttonMyAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMyAccountActionPerformed
         // TODO add your handling code here:
         if (MovieApplication.USER == null) {
-            navigateToSectionName(SectionAuthentication.name);
+            application.navigateToSection(new SectionAuthentication(), true);
         } else {
-            navigateToSectionName(SectionMyAccount.name);
+            application.navigateToSection(new SectionMyAccount(), true);
         }
     }//GEN-LAST:event_buttonMyAccountActionPerformed
+
+    public static MovieApplication application;
 
     /**
      * @param args the command line arguments
@@ -217,7 +258,8 @@ public class MovieApplication extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new MovieApplication().setVisible(true);
+            application = new MovieApplication();
+            application.setVisible(true);
         });
 //        var result1 = new RepositoryAuth().login(new User("rizaldwianggoro@email.com", "12345678"));
 //        System.out.println("result1: "
