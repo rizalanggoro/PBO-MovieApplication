@@ -21,10 +21,22 @@ public class UseCaseBuyTicket implements IUseCase<Ticket, Void> {
 
     private final RepositoryUser repositoryUser = new RepositoryUser();
     private final RepositoryTicket repositoryTicket = new RepositoryTicket();
+    private final User user = MovieApplication.USER;
 
     @Override
     public Either<Failure, Void> call(Ticket params) {
-        User user = MovieApplication.USER;
+        if (params.getCinema() == null) {
+            return Either.left(new Failure("Gagal membeli tiket: Bioskop tidak dipilih!"));
+        }
+
+        if (params.getSession() == null) {
+            return Either.left(new Failure("Gagal membeli tiket: Sesi tidak dipilih!"));
+        }
+
+        if (params.getSeat().isEmpty()) {
+            return Either.left(new Failure("Gagal membeli tiket: Kursi tidak dipilih!"));
+        }
+
         if (user != null) {
             // validate balance
             if (user.getBalance() < params.getTotalPrice()) {

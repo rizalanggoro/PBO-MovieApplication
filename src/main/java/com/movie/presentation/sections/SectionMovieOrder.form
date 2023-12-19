@@ -433,7 +433,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="detailMovieTitle">
+        <Component class="javax.swing.JLabel" name="rightTitle">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
@@ -446,9 +446,9 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="detailCinema">
+        <Component class="javax.swing.JLabel" name="rightCinema">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Lokasi: -"/>
+            <Property name="text" type="java.lang.String" value="Bioskop: -"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="32" right="32" top="8"/>
@@ -456,7 +456,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="detailDate">
+        <Component class="javax.swing.JLabel" name="rightSession">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sesi: -"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -466,22 +466,34 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="detailSeat">
+        <Component class="javax.swing.JLabel" name="rightSeat">
           <Properties>
             <Property name="text" type="java.lang.String" value="Kursi: -"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-                <EmptyBorder bottom="0" left="32" right="32" top="4"/>
+                <EmptyBorder bottom="16" left="32" right="32" top="4"/>
               </Border>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="detailPrice">
+        <Component class="javax.swing.JSeparator" name="jSeparator3">
+        </Component>
+        <Component class="javax.swing.JLabel" name="rightTotalPrice">
           <Properties>
             <Property name="text" type="java.lang.String" value="Total: Rp 0,00"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="32" right="32" top="16"/>
+              </Border>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="rightMyBalance">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Saldo Anda: Rp 0,00"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="0" left="32" right="32" top="8"/>
               </Border>
             </Property>
           </Properties>
@@ -508,6 +520,24 @@
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                   <BorderConstraints direction="North"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="javax.swing.JLabel" name="rightPleaseLogin">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;* Silahkan masuk ke akun Anda untuk melanjutkan pembelian tiket&lt;/html&gt;"/>
+                <Property name="verticalAlignment" type="int" value="1"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="0" left="0" right="0" top="16"/>
+                  </Border>
+                </Property>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                  <BorderConstraints direction="Center"/>
                 </Constraint>
               </Constraints>
             </Component>

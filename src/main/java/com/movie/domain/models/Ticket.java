@@ -4,6 +4,8 @@
  */
 package com.movie.domain.models;
 
+import java.util.List;
+
 /**
  *
  * @author user
@@ -14,7 +16,7 @@ public class Ticket {
     private final String cinema;
     private final String theater;
     private final String session;
-    private final String seat;
+    private final List<String> seat;
     private final long price;
     private final long totalPrice;
 
@@ -23,7 +25,7 @@ public class Ticket {
         String cinema,
         String theater,
         String session,
-        String seat,
+        List<String> seat,
         long price,
         long totalPrice
     ) {
@@ -52,7 +54,7 @@ public class Ticket {
         return session;
     }
 
-    public String getSeat() {
+    public List<String> getSeat() {
         return seat;
     }
 

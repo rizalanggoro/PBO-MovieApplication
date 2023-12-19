@@ -4,17 +4,17 @@
  */
 package com.movie.presentation.sections;
 
+import com.movie.MovieApplication;
 import com.movie.core.Utils;
 import com.movie.domain.models.Movie;
 import com.movie.domain.models.Ticket;
+import com.movie.domain.models.User;
 import com.movie.domain.usecases.UseCaseBuyTicket;
 import com.movie.presentation.components.SeatItem;
 import com.movie.presentation.components.SeatLabelItem;
 import com.movie.presentation.listeners.OnMovieItemClickListener;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.*;
 import org.kordamp.ikonli.fluentui.FluentUiFilledMZ;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -26,9 +26,11 @@ import org.kordamp.ikonli.swing.FontIcon;
 public class SectionMovieOrder extends javax.swing.JPanel {
 
     private final Movie movie;
+    private final User user = MovieApplication.USER;
+    private final boolean isAuthenticated = user != null;
 
-    private String selectedCinema = "-";
-    private String selectedSession = "-";
+    private String selectedCinema = null;
+    private String selectedSession = null;
     private final ArrayList<String> arrayListSelectedSeat = new ArrayList<>();
 
     /**
@@ -46,6 +48,7 @@ public class SectionMovieOrder extends javax.swing.JPanel {
             initializeLeft(movie);
             initializeCenter(movie);
             initializeRight();
+            initializeLogin();
         }
     }
 
@@ -54,9 +57,74 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         return "movieOrder";
     }
 
+    private void initializeLogin() {
+        this.buttonBuy.setEnabled(this.isAuthenticated);
+        this.rightPleaseLogin.setVisible(!this.isAuthenticated);
+
+        this.radioCinema1.setEnabled(this.isAuthenticated);
+        this.radioCinema2.setEnabled(this.isAuthenticated);
+        this.radioCinema3.setEnabled(this.isAuthenticated);
+        this.radioCinema4.setEnabled(this.isAuthenticated);
+
+        this.radioSession1.setEnabled(this.isAuthenticated);
+        this.radioSession2.setEnabled(this.isAuthenticated);
+        this.radioSession3.setEnabled(this.isAuthenticated);
+    }
+
     private void initializeRight() {
-        this.detailMovieTitle.setText("<html>" + this.movie.getTitle() + "</html>");
-        this.detailCinema.setText("Bioskop: -");
+        // selected cinema
+        if (this.buttonGroupCinema.getSelection() != null) {
+            JRadioButton[] cinemas = {
+                this.radioCinema1,
+                this.radioCinema2,
+                this.radioCinema3,
+                this.radioCinema4
+            };
+            for (JRadioButton button : cinemas) {
+                if (button.isSelected()) {
+                    this.selectedCinema = button.getText();
+                    break;
+                }
+            }
+        }
+
+        // selected session
+        if (this.buttonGroupSession.getSelection() != null) {
+            JRadioButton[] sessions = {
+                this.radioSession1,
+                this.radioSession2,
+                this.radioSession3
+            };
+            for (JRadioButton button : sessions) {
+                if (button.isSelected()) {
+                    this.selectedSession = button.getText();
+                    break;
+                }
+            }
+        }
+
+        this.rightTitle.setText("<html>" + this.movie.getTitle() + "</html>");
+        this.rightCinema.setText(
+            "Bioskop: " + (this.selectedCinema == null ? "-" : this.selectedCinema)
+        );
+        this.rightSession.setText(
+            "Sesi: " + (this.selectedSession == null ? "-" : this.selectedSession)
+        );
+        this.rightSeat.setText("<html>"
+            + "Kursi: " + (this.arrayListSelectedSeat.isEmpty()
+            ? "-" : String.join(", ", this.arrayListSelectedSeat))
+            + "</html>");
+        this.rightTotalPrice.setText(
+            "Rp " + Utils.Format.decimal(
+                this.arrayListSelectedSeat.size() * this.movie.getTicketPrice()
+            ) + ",00"
+        );
+
+        // my balance
+        this.rightMyBalance.setText(
+            "Saldo Anda: Rp " + (!this.isAuthenticated ? "0"
+                : Utils.Format.decimal(this.user.getBalance())) + ",00"
+        );
     }
 
     private void initializeCenter(Movie movie) {
@@ -90,19 +158,20 @@ public class SectionMovieOrder extends javax.swing.JPanel {
                     ));
                 } else {
                     String seat = seatRow.substring(r - 1, r) + c;
-                    this.containerSeats.add(new SeatItem(new OnMovieItemClickListener() {
+                    final var seatItem = new SeatItem(new OnMovieItemClickListener() {
                         @Override
                         public void onSelected() {
                             arrayListSelectedSeat.add(seat);
-                            onChangeSelectedSeat();
+                            initializeRight();
                         }
 
                         @Override
                         public void onUnselected() {
                             arrayListSelectedSeat.remove(seat);
-                            onChangeSelectedSeat();
+                            initializeRight();
                         }
-                    }));
+                    });
+                    this.containerSeats.add(seatItem);
                 }
             }
         }
@@ -190,13 +259,16 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         containerSeats = new javax.swing.JPanel();
         panelRight = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        detailMovieTitle = new javax.swing.JLabel();
-        detailCinema = new javax.swing.JLabel();
-        detailDate = new javax.swing.JLabel();
-        detailSeat = new javax.swing.JLabel();
-        detailPrice = new javax.swing.JLabel();
+        rightTitle = new javax.swing.JLabel();
+        rightCinema = new javax.swing.JLabel();
+        rightSession = new javax.swing.JLabel();
+        rightSeat = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        rightTotalPrice = new javax.swing.JLabel();
+        rightMyBalance = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         buttonBuy = new javax.swing.JButton();
+        rightPleaseLogin = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -385,26 +457,31 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 0, 32));
         panelRight.add(jLabel3);
 
-        detailMovieTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        detailMovieTitle.setText("Judul Film");
-        detailMovieTitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 32, 0, 32));
-        panelRight.add(detailMovieTitle);
+        rightTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        rightTitle.setText("Judul Film");
+        rightTitle.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 32, 0, 32));
+        panelRight.add(rightTitle);
 
-        detailCinema.setText("Lokasi: -");
-        detailCinema.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 32, 0, 32));
-        panelRight.add(detailCinema);
+        rightCinema.setText("Bioskop: -");
+        rightCinema.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 32, 0, 32));
+        panelRight.add(rightCinema);
 
-        detailDate.setText("Sesi: -");
-        detailDate.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 32, 0, 32));
-        panelRight.add(detailDate);
+        rightSession.setText("Sesi: -");
+        rightSession.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 32, 0, 32));
+        panelRight.add(rightSession);
 
-        detailSeat.setText("Kursi: -");
-        detailSeat.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 32, 0, 32));
-        panelRight.add(detailSeat);
+        rightSeat.setText("Kursi: -");
+        rightSeat.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 32, 16, 32));
+        panelRight.add(rightSeat);
+        panelRight.add(jSeparator3);
 
-        detailPrice.setText("Total: Rp 0,00");
-        detailPrice.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 32, 0, 32));
-        panelRight.add(detailPrice);
+        rightTotalPrice.setText("Total: Rp 0,00");
+        rightTotalPrice.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 32, 0, 32));
+        panelRight.add(rightTotalPrice);
+
+        rightMyBalance.setText("Saldo Anda: Rp 0,00");
+        rightMyBalance.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 32, 0, 32));
+        panelRight.add(rightMyBalance);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 32, 32));
         jPanel3.setAlignmentX(0.0F);
@@ -418,90 +495,51 @@ public class SectionMovieOrder extends javax.swing.JPanel {
         });
         jPanel3.add(buttonBuy, java.awt.BorderLayout.NORTH);
 
+        rightPleaseLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rightPleaseLogin.setText("<html>* Silahkan masuk ke akun Anda untuk melanjutkan pembelian tiket</html>");
+        rightPleaseLogin.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        rightPleaseLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 0, 0, 0));
+        rightPleaseLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(rightPleaseLogin, java.awt.BorderLayout.CENTER);
+
         panelRight.add(jPanel3);
 
         add(panelRight, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onChangeCinema() {
-        if (this.radioCinema1.isSelected()) {
-            this.selectedCinema = this.radioCinema1.getText();
-        } else if (this.radioCinema2.isSelected()) {
-            this.selectedCinema = this.radioCinema2.getText();
-        } else if (this.radioCinema3.isSelected()) {
-            this.selectedCinema = this.radioCinema3.getText();
-        } else if (this.radioCinema4.isSelected()) {
-            this.selectedCinema = this.radioCinema4.getText();
-        }
-
-        if (!this.selectedCinema.equals("-")) {
-            this.selectedCinema += ", " + this.movie.getTheater();
-        }
-
-        this.detailCinema.setText("Lokasi: " + this.selectedCinema);
-    }
-
-    private void onChangeSession() {
-        if (this.radioSession1.isSelected()) {
-            this.selectedSession = this.radioSession1.getText();
-        } else if (this.radioSession2.isSelected()) {
-            this.selectedSession = this.radioSession2.getText();
-        } else if (this.radioSession3.isSelected()) {
-            this.selectedSession = this.radioSession3.getText();
-        }
-
-        if (!this.selectedSession.equals("-")) {
-            Date currentDate = new Date();
-            String currentDateStr = new SimpleDateFormat("EEEE, dd MMMM yyyy").format(currentDate);
-            this.selectedSession = "Sesi: " + currentDateStr + ", " + this.selectedSession;
-        }
-        this.detailDate.setText(this.selectedSession);
-    }
-
-    private void onChangeSelectedSeat() {
-        String selectedSeat = "-";
-        if (!arrayListSelectedSeat.isEmpty()) {
-            selectedSeat = String.join(", ", arrayListSelectedSeat);
-        }
-        detailSeat.setText("<html>Kursi: " + selectedSeat + "</html>");
-
-        long price = movie.getTicketPrice() * arrayListSelectedSeat.size();
-        detailPrice.setText("Total: Rp " + Utils.Format.decimal(price) + ",00");
-    }
-
     private void radioCinema2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCinema2ActionPerformed
         // TODO add your handling code here:
-        onChangeCinema();
+        initializeRight();
     }//GEN-LAST:event_radioCinema2ActionPerformed
 
     private void radioCinema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCinema1ActionPerformed
         // TODO add your handling code here:
-        onChangeCinema();
+        initializeRight();
     }//GEN-LAST:event_radioCinema1ActionPerformed
 
     private void radioCinema3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCinema3ActionPerformed
         // TODO add your handling code here:
-        onChangeCinema();
+        initializeRight();
     }//GEN-LAST:event_radioCinema3ActionPerformed
 
     private void radioCinema4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCinema4ActionPerformed
         // TODO add your handling code here:
-        onChangeCinema();
+        initializeRight();
     }//GEN-LAST:event_radioCinema4ActionPerformed
 
     private void radioSession1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSession1ActionPerformed
         // TODO add your handling code here:
-        onChangeSession();
+        initializeRight();
     }//GEN-LAST:event_radioSession1ActionPerformed
 
     private void radioSession2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSession2ActionPerformed
         // TODO add your handling code here:
-        onChangeSession();
+        initializeRight();
     }//GEN-LAST:event_radioSession2ActionPerformed
 
     private void radioSession3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSession3ActionPerformed
         // TODO add your handling code here:
-        onChangeSession();
+        initializeRight();
     }//GEN-LAST:event_radioSession3ActionPerformed
 
     private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
@@ -511,10 +549,12 @@ public class SectionMovieOrder extends javax.swing.JPanel {
             this.selectedCinema,
             this.movie.getTheater(),
             this.selectedSession,
-            String.join(", ", this.arrayListSelectedSeat),
+            this.arrayListSelectedSeat,
             this.movie.getTicketPrice(),
             this.movie.getTicketPrice() * this.arrayListSelectedSeat.size()
         );
+
+        System.out.println(ticket.toString());
 
         final var buyResult = new UseCaseBuyTicket().call(ticket);
         if (buyResult.isLeft()) {
@@ -544,11 +584,6 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     private javax.swing.JPanel containerCenter;
     private javax.swing.JPanel containerCinemas;
     private javax.swing.JPanel containerSeats;
-    private javax.swing.JLabel detailCinema;
-    private javax.swing.JLabel detailDate;
-    private javax.swing.JLabel detailMovieTitle;
-    private javax.swing.JLabel detailPrice;
-    private javax.swing.JLabel detailSeat;
     private javax.swing.JLabel iconStar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -561,6 +596,7 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel labelCategoryAndDuration;
     private javax.swing.JLabel labelCharacter;
     private javax.swing.JLabel labelCinema;
@@ -577,6 +613,13 @@ public class SectionMovieOrder extends javax.swing.JPanel {
     private javax.swing.JRadioButton radioSession1;
     private javax.swing.JRadioButton radioSession2;
     private javax.swing.JRadioButton radioSession3;
+    private javax.swing.JLabel rightCinema;
+    private javax.swing.JLabel rightMyBalance;
+    private javax.swing.JLabel rightPleaseLogin;
+    private javax.swing.JLabel rightSeat;
+    private javax.swing.JLabel rightSession;
+    private javax.swing.JLabel rightTitle;
+    private javax.swing.JLabel rightTotalPrice;
     private javax.swing.JScrollPane scrollPaneCenter;
     // End of variables declaration//GEN-END:variables
 }
