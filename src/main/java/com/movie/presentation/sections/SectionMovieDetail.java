@@ -80,9 +80,9 @@ public class SectionMovieDetail extends javax.swing.JPanel {
         centerSynopsis = new javax.swing.JLabel();
         centerSynopsisId = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         labelCharacter = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         labelDirector = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
@@ -140,20 +140,23 @@ public class SectionMovieDetail extends javax.swing.JPanel {
         jSeparator1.setMaximumSize(new java.awt.Dimension(32767, 10));
         panelCenter.add(jSeparator1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Pemeran Utama");
-        panelCenter.add(jLabel1);
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Pemeran Utama");
+        jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 0, 0, 0));
+        panelCenter.add(jLabel2);
 
         labelCharacter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelCharacter.setText("jLabel3");
         panelCenter.add(labelCharacter);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Sutradara");
-        panelCenter.add(jLabel4);
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Sutradara");
+        jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
+        panelCenter.add(jLabel5);
 
         labelDirector.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelDirector.setText("jLabel5");
+        labelDirector.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 32, 0));
         panelCenter.add(labelDirector);
 
         add(panelCenter, java.awt.BorderLayout.CENTER);
@@ -163,8 +166,8 @@ public class SectionMovieDetail extends javax.swing.JPanel {
     private javax.swing.JLabel centerSynopsis;
     private javax.swing.JLabel centerSynopsisId;
     private javax.swing.JLabel centerTitle;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel labelCategoryAndDuration;

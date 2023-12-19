@@ -7,11 +7,9 @@ package com.movie;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.movie.data.repositories.RepositoryAuth;
 import com.movie.domain.models.User;
-import com.movie.domain.usecases.UseCaseReadNowPlayingMovies;
 import com.movie.presentation.sections.SectionAuthentication;
 import com.movie.presentation.sections.SectionHome;
 import com.movie.presentation.sections.SectionLoading;
-import com.movie.presentation.sections.SectionMovieOrder;
 import com.movie.presentation.sections.SectionMyAccount;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -48,12 +46,14 @@ public class MovieApplication extends javax.swing.JFrame {
                 System.out.println("session status: " + sessionResult.getLeft().message);
             }
 
+            navigateToSection(new SectionHome(), true);
+
 //            initContent();
 //            navigateToSectionName(SectionMyAccount.name);
-            final var result = new UseCaseReadNowPlayingMovies().call(null);
-            if (result.isRight()) {
-                navigateToSection(new SectionMovieOrder(result.getRight().get(4)), false);
-            }
+//            final var result = new UseCaseReadNowPlayingMovies().call(null);
+//            if (result.isRight()) {
+//                navigateToSection(new SectionMyAccount(), false);
+//            }
         }).start();
     }
 

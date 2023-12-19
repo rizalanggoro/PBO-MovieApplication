@@ -67,7 +67,18 @@ public class RepositoryTicket implements IRepositoryTicket {
 
     @Override
     public Either<Failure, List<Ticket>> read(String userEmail) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Ticket> result = new ArrayList<>();
+
+        final var readResult = this.providerLocal.read(this.directory + userEmail + ".json");
+        if (readResult.isRight()) {
+            result = this.gson.fromJson(
+                readResult.getRight(),
+                new TypeToken<List<Ticket>>() {
+                }.getType()
+            );
+        }
+
+        return Either.right(result);
     }
 
 }

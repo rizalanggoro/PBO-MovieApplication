@@ -152,7 +152,6 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(labelName);
 
         textFieldName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        textFieldName.setText("Rizal Dwi Anggoro");
         textFieldName.setAlignmentX(0.0F);
         textFieldName.setMaximumSize(new java.awt.Dimension(2147483647, 32));
         textFieldName.setPreferredSize(new java.awt.Dimension(131, 32));
@@ -163,7 +162,6 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(labelEmail);
 
         textFieldEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        textFieldEmail.setText("rizaldwianggoro@email.com");
         textFieldEmail.setAlignmentX(0.0F);
         textFieldEmail.setMaximumSize(new java.awt.Dimension(2147483647, 32));
         textFieldEmail.setPreferredSize(new java.awt.Dimension(190, 32));
@@ -174,7 +172,6 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(labelPassword);
 
         textFieldPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        textFieldPassword.setText("12345678");
         textFieldPassword.setAlignmentX(0.0F);
         textFieldPassword.setMaximumSize(new java.awt.Dimension(2147483647, 32));
         textFieldPassword.setMinimumSize(new java.awt.Dimension(68, 32));

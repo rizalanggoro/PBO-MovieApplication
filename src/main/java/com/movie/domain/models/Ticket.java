@@ -19,6 +19,7 @@ public class Ticket {
     private final List<String> seat;
     private final long price;
     private final long totalPrice;
+    private final String moviePoster;
 
     public Ticket(
         String movieTitle,
@@ -27,7 +28,8 @@ public class Ticket {
         String session,
         List<String> seat,
         long price,
-        long totalPrice
+        long totalPrice,
+        String moviePoster
     ) {
         this.movieTitle = movieTitle;
         this.cinema = cinema;
@@ -36,6 +38,7 @@ public class Ticket {
         this.seat = seat;
         this.price = price;
         this.totalPrice = totalPrice;
+        this.moviePoster = moviePoster;
     }
 
     public String getMovieTitle() {
@@ -64,6 +67,10 @@ public class Ticket {
 
     public long getTotalPrice() {
         return totalPrice;
+    }
+
+    public String getMoviePoster() {
+        return moviePoster;
     }
 
 }

@@ -551,10 +551,9 @@ public class SectionMovieOrder extends javax.swing.JPanel {
             this.selectedSession,
             this.arrayListSelectedSeat,
             this.movie.getTicketPrice(),
-            this.movie.getTicketPrice() * this.arrayListSelectedSeat.size()
+            this.movie.getTicketPrice() * this.arrayListSelectedSeat.size(),
+            this.movie.getPoster()
         );
-
-        System.out.println(ticket.toString());
 
         final var buyResult = new UseCaseBuyTicket().call(ticket);
         if (buyResult.isLeft()) {
@@ -565,12 +564,13 @@ public class SectionMovieOrder extends javax.swing.JPanel {
                 JOptionPane.ERROR_MESSAGE
             );
         } else {
-            JOptionPane.showMessageDialog(
-                this,
-                "Berhasil membeli tiket!",
-                "Berhasil",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+//            JOptionPane.showMessageDialog(
+//                this,
+//                "Berhasil membeli tiket!",
+//                "Berhasil",
+//                JOptionPane.INFORMATION_MESSAGE
+//            );
+            MovieApplication.application.navigateToSection(new SectionMyAccount(), true);
         }
     }//GEN-LAST:event_buttonBuyActionPerformed
 
