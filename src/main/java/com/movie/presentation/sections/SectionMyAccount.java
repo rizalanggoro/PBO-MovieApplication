@@ -6,9 +6,9 @@ package com.movie.presentation.sections;
 
 import com.movie.MovieApplication;
 import com.movie.core.Utils;
-import com.movie.data.repositories.RepositoryAuth;
 import com.movie.domain.models.Ticket;
 import com.movie.domain.models.User;
+import com.movie.domain.usecases.UseCaseAuthLogout;
 import com.movie.domain.usecases.UseCaseReadTickets;
 import com.movie.domain.usecases.UseCaseTopUpBalance;
 import com.movie.presentation.components.TicketItem;
@@ -178,8 +178,8 @@ public class SectionMyAccount extends javax.swing.JPanel {
 
     private void buttonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLogoutActionPerformed
         // TODO add your handling code here:
-        final boolean result = new RepositoryAuth().logout();
-        if (result) {
+        final var result = new UseCaseAuthLogout().call(null);
+        if (result.isRight()) {
             MovieApplication.application.setVisible(false);
             MovieApplication.application = new MovieApplication();
             MovieApplication.application.setVisible(true);

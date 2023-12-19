@@ -46,7 +46,7 @@ public class MovieApplication extends javax.swing.JFrame {
                 System.out.println("session status: " + sessionResult.getLeft().message);
             }
 
-            navigateToSection(new SectionHome(), true);
+            navigateToSection(new SectionAuthentication(), true);
 
 //            initContent();
 //            navigateToSectionName(SectionMyAccount.name);

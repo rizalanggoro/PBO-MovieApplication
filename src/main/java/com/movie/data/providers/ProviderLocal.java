@@ -38,7 +38,7 @@ public class ProviderLocal {
         }
     }
 
-    public Either<Failure, Boolean> create(String filepath, String data) {
+    public Either<Failure, Void> create(String filepath, String data) {
         try {
             File file = new File(filepath);
             file.getParentFile().mkdirs();
@@ -48,7 +48,7 @@ public class ProviderLocal {
             fileWriter.write(data);
             fileWriter.close();
 
-            return Either.right(true);
+            return Either.right(null);
         } catch (IOException e) {
             return Either.left(new Failure(e.getMessage()));
         }

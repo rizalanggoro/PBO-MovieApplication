@@ -26,24 +26,59 @@ public class RepositoryUser implements IRepositoryUser {
     private final String filePathAccounts = "appdata/accounts.json";
 
     @Override
+    public Either<Failure, Void> create(User user) {
+        ArrayList<User> arrayListUsers = new ArrayList<>();
+        if (this.providerLocal.isFileExists(this.filePathAccounts)) {
+            final var readResult = this.providerLocal.read(this.filePathAccounts);
+            if (readResult.isRight()) {
+                arrayListUsers = this.gson.fromJson(
+                    readResult.getRight(),
+                    new TypeToken<ArrayList<User>>() {
+                    }.getType()
+                );
+                arrayListUsers.add(user);
+            } else {
+                return Either.left(new Failure("Gagal menambahkan pengguna baru!"));
+            }
+        } else {
+            arrayListUsers.add(user);
+        }
+
+        return this.providerLocal.create(
+            this.filePathAccounts,
+            this.gson.toJson(arrayListUsers)
+        );
+    }
+
+    @Override
     public Either<Failure, List<User>> read() {
+        List<User> result = new ArrayList<>();
+
         if (this.providerLocal.isFileExists(this.filePathAccounts)) {
             var readResult = this.providerLocal.read(this.filePathAccounts);
             if (readResult.isRight()) {
-                String jsonStr = readResult.getRight();
-                return Either.right(
-                    this.gson.fromJson(jsonStr, new TypeToken<List<User>>() {
-                    }.getType())
-                );
+                result = this.gson.fromJson(readResult.getRight(), new TypeToken<List<User>>() {
+                }.getType());
             }
         }
 
-        return Either.left(new Failure("Data pengguna tidak ditemukan!"));
+        return Either.right(result);
     }
 
     @Override
     public Either<Failure, User> readByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        final var readResult = read();
+        if (readResult.isRight()) {
+            User user = readResult.getRight().stream().filter((item)
+                -> item.getEmail().equalsIgnoreCase(email)
+            ).findFirst().orElse(null);
+
+            if (user != null) {
+                return Either.right(user);
+            }
+        }
+
+        return Either.left(new Failure("Data pengguna tidak ditemukan!"));
     }
 
     @Override

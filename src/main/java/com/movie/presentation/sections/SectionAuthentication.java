@@ -5,8 +5,9 @@
 package com.movie.presentation.sections;
 
 import com.movie.MovieApplication;
-import com.movie.data.repositories.RepositoryAuth;
 import com.movie.domain.models.User;
+import com.movie.domain.usecases.UseCaseAuthLogin;
+import com.movie.domain.usecases.UseCaseAuthRegister;
 import javax.swing.JOptionPane;
 
 /**
@@ -58,7 +59,10 @@ public class SectionAuthentication extends javax.swing.JPanel {
         final String password = this.textFieldPassword.getText();
 
         new Thread(() -> {
-            var registerResult = new RepositoryAuth().register(
+//            var registerResult = new RepositoryAuth().register(
+//                new User(name, email, password, 0)
+//            );
+            var registerResult = new UseCaseAuthRegister().call(
                 new User(name, email, password, 0)
             );
 
@@ -66,14 +70,14 @@ public class SectionAuthentication extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(
                     this,
                     registerResult.getLeft().message,
-                    "Error",
+                    "Terjadi Kesalahan",
                     JOptionPane.ERROR_MESSAGE
                 );
             } else {
                 JOptionPane.showMessageDialog(
                     this,
                     "Pendaftaran berhasil dilakukan! Silahkan masuk",
-                    "Success",
+                    "Berhasil",
                     JOptionPane.INFORMATION_MESSAGE
                 );
             }
@@ -87,7 +91,11 @@ public class SectionAuthentication extends javax.swing.JPanel {
         final String password = this.textFieldPassword.getText();
 
         new Thread(() -> {
-            var loginResult = new RepositoryAuth().login(
+//            var loginResult = new RepositoryAuth().login(
+//                new User(email, password)
+//            );
+
+            final var loginResult = new UseCaseAuthLogin().call(
                 new User(email, password)
             );
 
@@ -162,6 +170,7 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(labelEmail);
 
         textFieldEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        textFieldEmail.setText("rizaldwianggoro@email.com");
         textFieldEmail.setAlignmentX(0.0F);
         textFieldEmail.setMaximumSize(new java.awt.Dimension(2147483647, 32));
         textFieldEmail.setPreferredSize(new java.awt.Dimension(190, 32));

@@ -14,11 +14,9 @@ import com.movie.domain.models.User;
  */
 public interface IRepositoryAuth {
 
-    public Either<Failure, Boolean> register(User user);
-
-    public Either<Failure, Boolean> login(User user);
-
-    public boolean logout();
+    public Either<Failure, Void> createSession(User user);
 
     public Either<Failure, User> getSession();
+
+    public Either<Failure, Void> deleteSession();
 }

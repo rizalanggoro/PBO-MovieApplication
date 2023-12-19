@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface IRepositoryUser {
 
+    public Either<Failure, Void> create(User user);
+
     public Either<Failure, List<User>> read();
 
     public Either<Failure, User> readByEmail(String email);
