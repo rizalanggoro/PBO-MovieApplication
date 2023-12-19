@@ -170,7 +170,6 @@ public class SectionAuthentication extends javax.swing.JPanel {
         jPanel1.add(labelEmail);
 
         textFieldEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        textFieldEmail.setText("rizaldwianggoro@email.com");
         textFieldEmail.setAlignmentX(0.0F);
         textFieldEmail.setMaximumSize(new java.awt.Dimension(2147483647, 32));
         textFieldEmail.setPreferredSize(new java.awt.Dimension(190, 32));
