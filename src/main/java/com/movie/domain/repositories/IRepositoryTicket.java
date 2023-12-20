@@ -19,7 +19,18 @@ public interface IRepositoryTicket {
         String userEmail, Ticket ticket
     );
 
+    public Either<Failure, Void> createSold(
+        Ticket ticket
+    );
+
     public Either<Failure, List<Ticket>> read(
         String userEmail
+    );
+
+    public Either<Failure, List<String>> readSold(
+        String movieTitle,
+        String cinema,
+        String theater,
+        String session
     );
 }

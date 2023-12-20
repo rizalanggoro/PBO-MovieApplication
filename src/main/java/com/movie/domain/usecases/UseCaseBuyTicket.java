@@ -49,6 +49,9 @@ public class UseCaseBuyTicket implements IUseCase<Ticket, Void> {
             );
 
             if (createTicketResult.isRight()) {
+                // save sold ticket
+                this.repositoryTicket.createSold(params);
+
                 final User newUser = new User(
                     user.getName(),
                     user.getEmail(),

@@ -4,7 +4,6 @@
  */
 package com.movie.presentation.components;
 
-import com.movie.MovieApplication;
 import com.movie.presentation.listeners.OnMovieItemClickListener;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -19,17 +18,20 @@ import org.kordamp.ikonli.swing.FontIcon;
 public class SeatItem extends javax.swing.JPanel {
 
     private final OnMovieItemClickListener onMovieItemClickListener;
-    private final boolean isAuthenticated = MovieApplication.USER != null;
+    private final boolean isEnabled;
 
     /**
      * Creates new form SeatPositionItem
      *
      * @param onMovieItemClickListener
+     * @param isEnabled
      */
     public SeatItem(
-        OnMovieItemClickListener onMovieItemClickListener
+        OnMovieItemClickListener onMovieItemClickListener,
+        boolean isEnabled
     ) {
         this.onMovieItemClickListener = onMovieItemClickListener;
+        this.isEnabled = isEnabled;
 
         initComponents();
 
@@ -37,7 +39,7 @@ public class SeatItem extends javax.swing.JPanel {
         fontIcon.setIconSize(18);
         fontIcon.setIconColor(Color.WHITE);
         this.toggleButton.setIcon(fontIcon);
-        this.toggleButton.setEnabled(this.isAuthenticated);
+        this.toggleButton.setEnabled(this.isEnabled);
     }
 
     /**

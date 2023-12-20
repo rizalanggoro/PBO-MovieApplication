@@ -23,6 +23,7 @@ public class RepositoryTicket implements IRepositoryTicket {
     private final ProviderLocal providerLocal = new ProviderLocal();
     private final Gson gson = new Gson();
     private final String directory = "appdata/tickets/";
+    private final String soldDirectory = directory + "sold/";
 
     @Override
     public Either<Failure, Void> create(String userEmail, Ticket ticket) {
@@ -66,6 +67,34 @@ public class RepositoryTicket implements IRepositoryTicket {
     }
 
     @Override
+    public Either<Failure, Void> createSold(Ticket ticket) {
+        final String filePath = this.soldDirectory + ticket.getMovieTitle() + "-"
+            + ticket.getCinema() + "-"
+            + ticket.getTheater() + "-"
+            + ticket.getSession() + ".json";
+
+        ArrayList<String> arrayListSeats = new ArrayList<>();
+        if (this.providerLocal.isFileExists(filePath)) {
+            final var readResult = this.providerLocal.read(filePath);
+            if (readResult.isRight()) {
+                arrayListSeats = this.gson.fromJson(
+                    readResult.getRight(),
+                    new TypeToken<ArrayList<String>>() {
+                    }.getType()
+                );
+            }
+        }
+
+        arrayListSeats.addAll(ticket.getSeat());
+
+        // save to file
+        return this.providerLocal.create(
+            filePath,
+            this.gson.toJson(arrayListSeats)
+        );
+    }
+
+    @Override
     public Either<Failure, List<Ticket>> read(String userEmail) {
         List<Ticket> result = new ArrayList<>();
 
@@ -81,4 +110,28 @@ public class RepositoryTicket implements IRepositoryTicket {
         return Either.right(result);
     }
 
+    @Override
+    public Either<Failure, List<String>> readSold(
+        String movieTitle,
+        String cinema,
+        String theater,
+        String session
+    ) {
+        final String filePath = this.soldDirectory + movieTitle + "-"
+            + cinema + "-"
+            + theater + "-"
+            + session + ".json";
+
+        List<String> result = new ArrayList<>();
+        final var readResult = this.providerLocal.read(filePath);
+        if (readResult.isRight()) {
+            result = this.gson.fromJson(
+                readResult.getRight(),
+                new TypeToken<List<String>>() {
+                }.getType()
+            );
+        }
+
+        return Either.right(result);
+    }
 }
