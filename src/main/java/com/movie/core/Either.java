@@ -7,6 +7,12 @@ package com.movie.core;
 /**
  *
  * @author user
+ * @param <L> left
+ * @param <R> right
+ *
+ * Either biasanya digunakan untuk menangani error dalam aplikasi. Either adalah
+ * tipe data yang mewakili dua kemungkinan nilai: sebuah nilai Left atau Right.
+ * Di mana Left mewakili kegagalan dan Right mewakili keberhasilan.
  */
 public class Either<L, R> {
 
@@ -29,24 +35,24 @@ public class Either<L, R> {
     }
 
     public boolean isLeft() {
-        return isLeft;
+        return this.isLeft;
     }
 
     public boolean isRight() {
-        return !isLeft;
+        return !this.isLeft;
     }
 
     public L getLeft() {
-        if (!isLeft) {
+        if (!this.isLeft) {
             throw new UnsupportedOperationException("Cannot getLeft() on a Right Either");
         }
-        return left;
+        return this.left;
     }
 
     public R getRight() {
-        if (isLeft) {
+        if (this.isLeft) {
             throw new UnsupportedOperationException("Cannot getRight() on a Left Either");
         }
-        return right;
+        return this.right;
     }
 }

@@ -7,8 +7,8 @@ package com.movie.core;
 /**
  *
  * @author user
- * @param <Params>
- * @param <Result>
+ * @param <Params> parameter
+ * @param <Result> result
  */
 public interface IUseCase<Params, Result> {
 

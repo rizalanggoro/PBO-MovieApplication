@@ -5,7 +5,6 @@
 package com.movie.data.repositories;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.movie.core.Either;
 import com.movie.core.Failure;
@@ -26,20 +25,18 @@ public class RepositoryMovie implements IRepositoryMovie {
     private Either<Failure, List<Movie>> readMoviesByFilePath(
         String filePath
     ) {
-        var readResult = this.providerLocal.read(filePath);
-        if (readResult.isLeft()) {
-            return Either.left(readResult.getLeft());
+        if (this.providerLocal.isFileExists(filePath)) {
+            final var readResult = this.providerLocal.read(filePath);
+            if (readResult.isRight()) {
+                return Either.right(this.gson.fromJson(
+                    readResult.getRight(),
+                    new TypeToken<List<Movie>>() {
+                    }.getType()
+                ));
+            }
         }
 
-        try {
-            return Either.right(this.gson.fromJson(
-                readResult.getRight(),
-                new TypeToken<List<Movie>>() {
-                }.getType()
-            ));
-        } catch (JsonSyntaxException e) {
-            return Either.left(new Failure(e.getMessage()));
-        }
+        return Either.left(new Failure("Gagal membaca data film!"));
     }
 
     @Override

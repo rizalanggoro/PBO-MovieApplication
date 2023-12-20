@@ -47,13 +47,6 @@ public class MovieApplication extends javax.swing.JFrame {
             }
 
             navigateToSection(new SectionHome(), true);
-
-//            initContent();
-//            navigateToSectionName(SectionMyAccount.name);
-//            final var result = new UseCaseReadNowPlayingMovies().call(null);
-//            if (result.isRight()) {
-//                navigateToSection(new SectionMyAccount(), false);
-//            }
         }).start();
     }
 
@@ -86,46 +79,6 @@ public class MovieApplication extends javax.swing.JFrame {
         }
     }
 
-//    private void initContent() {
-//        // section home
-//        this.panelContent.add(SectionHome.name, new SectionHome((movie) -> {
-//            for (Component component : this.panelContent.getComponents()) {
-//                if (component instanceof SectionMovieOrder) {
-//                    this.panelContent.remove(component);
-//                    break;
-//                }
-//            }
-//            this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(movie));
-//            navigateToSectionName(SectionMovieOrder.name);
-//        }));
-//
-//        // section movie order
-//        this.panelContent.add(SectionMovieOrder.name, new SectionMovieOrder(
-//            new RepositoryMovie().readNowPlaying().getRight().get(0)
-//        // null
-//        ));
-//
-//        // section my account
-//        this.panelContent.add(
-//            SectionMyAccount.name,
-//            new SectionMyAccount(() -> {
-//                this.setVisible(false);
-//                new MovieApplication().setVisible(true);
-//            })
-//        );
-//
-//        // section authentication
-//        this.panelContent.add(
-//            SectionAuthentication.name,
-//            new SectionAuthentication(() -> {
-//                this.setVisible(false);
-//                new MovieApplication().setVisible(true);
-//            })
-//        );
-//    }
-//    private void navigateToSectionName(String name) {
-//        ((CardLayout) this.panelContent.getLayout()).show(this.panelContent, name);
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -237,23 +190,6 @@ public class MovieApplication extends javax.swing.JFrame {
         } catch (UnsupportedLookAndFeelException e) {
             System.err.println(e.getMessage());
         }
-
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(MovieApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(MovieApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(MovieApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(MovieApplication.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
         //</editor-fold>
 
         /* Create and display the form */
@@ -261,29 +197,6 @@ public class MovieApplication extends javax.swing.JFrame {
             application = new MovieApplication();
             application.setVisible(true);
         });
-//        var result1 = new RepositoryAuth().login(new User("rizaldwianggoro@email.com", "12345678"));
-//        System.out.println("result1: "
-//            + (result1.isLeft()
-//            ? result1.getLeft().message : result1.getRight())
-//        );
-//
-//        var result2 = new RepositoryAuth().login(new User("rizaldwianggoro@email.com", "123456788"));
-//        System.out.println("result2: "
-//            + (result2.isLeft()
-//            ? result2.getLeft().message : result2.getRight())
-//        );
-//
-//        var result3 = new RepositoryAuth().login(new User("rizaldwianggoroo@email.com", "123456788"));
-//        System.out.println("result3: "
-//            + (result3.isLeft()
-//            ? result3.getLeft().message : result2.getRight())
-//        );
-//
-//        var session = new RepositoryAuth().getSession();
-//        System.out.println("session: "
-//            + (session.isLeft()
-//            ? session.getLeft().message : session.getRight().getName())
-//        );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
